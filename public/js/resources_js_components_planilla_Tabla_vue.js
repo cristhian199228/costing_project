@@ -1000,7 +1000,7 @@ var render = function() {
           _c("v-breadcrumbs", { attrs: { items: _vm.items } }),
           _vm._v(" "),
           _c("p", { staticClass: "display-1 mt-5 text-center" }, [
-            _vm._v("PRESUPUESTOS")
+            _vm._v("PLANILLA")
           ]),
           _vm._v(" "),
           _c("v-divider"),

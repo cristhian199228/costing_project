@@ -2,7 +2,7 @@
   <div>
     <v-card outlined>
       <v-breadcrumbs :items="items"></v-breadcrumbs>
-      <p class="display-1 mt-5 text-center">PRESUPUESTOS</p>
+      <p class="display-1 mt-5 text-center">PLANILLA</p>
       <v-divider></v-divider>
       <v-card-text>
         <v-data-table

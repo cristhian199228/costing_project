@@ -13,16 +13,7 @@ const routes = [
         path: '',
         component: () => import('../components/paises/Tabla'),
         name: 'Pac'
-      },
-      {
-        path: 'contactosDirectos/:attention_id',
-        component: () => import('../components/paises/DirectContacts'),
-        name: 'DC',
-        beforeEnter: (to, from ,next) => {
-          if (store.getters["atenciones/getAttentionId"]) next()
-          else next('/paciente')
-        }
-      },
+      }
     ]
   },
   {

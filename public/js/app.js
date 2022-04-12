@@ -2138,15 +2138,6 @@ var routes = [{
       return __webpack_require__.e(/*! import() */ "resources_js_components_paises_Tabla_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/paises/Tabla */ "./resources/js/components/paises/Tabla.vue"));
     },
     name: 'Pac'
-  }, {
-    path: 'contactosDirectos/:attention_id',
-    component: function component() {
-      return __webpack_require__.e(/*! import() */ "resources_js_components_paises_DirectContacts_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/paises/DirectContacts */ "./resources/js/components/paises/DirectContacts.vue"));
-    },
-    name: 'DC',
-    beforeEnter: function beforeEnter(to, from, next) {
-      if (_store__WEBPACK_IMPORTED_MODULE_0__.default.getters["atenciones/getAttentionId"]) next();else next('/paciente');
-    }
   }]
 }, {
   path: '/atenciones',
@@ -2240,8 +2231,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _modules_currentUser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/currentUser */ "./resources/js/store/modules/currentUser.js");
 /* harmony import */ var _modules_atenciones__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/atenciones */ "./resources/js/store/modules/atenciones.js");
 /* harmony import */ var _modules_temperatura__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/temperatura */ "./resources/js/store/modules/temperatura.js");
@@ -2250,6 +2241,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_binnacle__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/binnacle */ "./resources/js/store/modules/binnacle.js");
 /* harmony import */ var _modules_antecedentes__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/antecedentes */ "./resources/js/store/modules/antecedentes.js");
 /* harmony import */ var _modules_dc__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/dc */ "./resources/js/store/modules/dc.js");
+/* harmony import */ var _modules_paises__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/paises */ "./resources/js/store/modules/paises.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2266,7 +2258,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_9__.default.use(vuex__WEBPACK_IMPORTED_MODULE_10__.default);
+
+vue__WEBPACK_IMPORTED_MODULE_10__.default.use(vuex__WEBPACK_IMPORTED_MODULE_11__.default);
 var state = {
   snackbar: {
     message: null,
@@ -2347,9 +2340,10 @@ var modules = {
   seguimientos: _modules_seguimientos__WEBPACK_IMPORTED_MODULE_5__.default,
   binnacle: _modules_binnacle__WEBPACK_IMPORTED_MODULE_6__.default,
   antecedentes: _modules_antecedentes__WEBPACK_IMPORTED_MODULE_7__.default,
-  dc: _modules_dc__WEBPACK_IMPORTED_MODULE_8__.default
+  dc: _modules_dc__WEBPACK_IMPORTED_MODULE_8__.default,
+  paises: _modules_paises__WEBPACK_IMPORTED_MODULE_9__.default
 };
-var store = new vuex__WEBPACK_IMPORTED_MODULE_10__.default.Store({
+var store = new vuex__WEBPACK_IMPORTED_MODULE_11__.default.Store({
   state: state,
   getters: getters,
   mutations: mutations,
@@ -2672,24 +2666,32 @@ var getters = {
   }
 };
 var actions = {
-  getAtencionesPaciente: {
+  getAtencionesAdministrador: {
     root: true,
     handler: function handler(_ref) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var commit, rootGetters, getters, config, res;
+        var commit, getters, config, res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                commit = _ref.commit, rootGetters = _ref.rootGetters, getters = _ref.getters;
+                commit = _ref.commit, getters = _ref.getters;
                 config = {
                   params: {
-                    page: getters.currentPage
+                    page: getters.currentPage,
+                    fecha_inicio: getters.getFilters.fechas[0],
+                    fecha_fin: getters.getFilters.fechas[1],
+                    buscar: getters.getFilters.buscar,
+                    sintomas: getters.getFilters.sintomas,
+                    antecedentes: getters.getFilters.antecedentes,
+                    et: getters.getFilters.et,
+                    lt: getters.getFilters.lt,
+                    dc: getters.getFilters.dc
                   }
                 };
                 _context.prev = 2;
                 _context.next = 5;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default().get("api/v1/attention/".concat(rootGetters["currentUser/getUser"].idpacientes), config);
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().get("api/v1/attention", config);
 
               case 5:
                 res = _context.sent;
@@ -2717,114 +2719,61 @@ var actions = {
       }))();
     }
   },
-  getAtencionesAdministrador: {
-    root: true,
-    handler: function handler(_ref2) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var commit, getters, config, res;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                commit = _ref2.commit, getters = _ref2.getters;
-                config = {
-                  params: {
-                    page: getters.currentPage,
-                    fecha_inicio: getters.getFilters.fechas[0],
-                    fecha_fin: getters.getFilters.fechas[1],
-                    buscar: getters.getFilters.buscar,
-                    sintomas: getters.getFilters.sintomas,
-                    antecedentes: getters.getFilters.antecedentes,
-                    et: getters.getFilters.et,
-                    lt: getters.getFilters.lt,
-                    dc: getters.getFilters.dc
-                  }
-                };
-                _context2.prev = 2;
-                _context2.next = 5;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default().get("api/v1/attention", config);
-
-              case 5:
-                res = _context2.sent;
-                _context2.t0 = commit;
-                _context2.next = 9;
-                return res.data;
-
-              case 9:
-                _context2.t1 = _context2.sent;
-                (0, _context2.t0)('SET_DATA', _context2.t1);
-                _context2.next = 16;
-                break;
-
-              case 13:
-                _context2.prev = 13;
-                _context2.t2 = _context2["catch"](2);
-                console.error(_context2.t2.response);
-
-              case 16:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, null, [[2, 13]]);
-      }))();
-    }
-  },
-  storeAtencion: function storeAtencion(_ref3) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+  storeAtencion: function storeAtencion(_ref2) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
       var commit, dispatch, rootGetters, res, data;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
         while (1) {
-          switch (_context3.prev = _context3.next) {
+          switch (_context2.prev = _context2.next) {
             case 0:
-              commit = _ref3.commit, dispatch = _ref3.dispatch, rootGetters = _ref3.rootGetters;
-              _context3.prev = 1;
-              _context3.next = 4;
+              commit = _ref2.commit, dispatch = _ref2.dispatch, rootGetters = _ref2.rootGetters;
+              _context2.prev = 1;
+              _context2.next = 4;
               return axios__WEBPACK_IMPORTED_MODULE_1___default().post("api/v1/attention", rootGetters["currentUser/getUser"]);
 
             case 4:
-              res = _context3.sent;
-              _context3.next = 7;
+              res = _context2.sent;
+              _context2.next = 7;
               return res.data;
 
             case 7:
-              data = _context3.sent;
-              _context3.t0 = commit;
-              _context3.next = 11;
+              data = _context2.sent;
+              _context2.t0 = commit;
+              _context2.next = 11;
               return data.message;
 
             case 11:
-              _context3.t1 = _context3.sent;
-              _context3.t2 = {
+              _context2.t1 = _context2.sent;
+              _context2.t2 = {
                 root: true
               };
-              (0, _context3.t0)('SHOW_SUCCESS_SNACKBAR', _context3.t1, _context3.t2);
+              (0, _context2.t0)('SHOW_SUCCESS_SNACKBAR', _context2.t1, _context2.t2);
               dispatch('getAtencionesPaciente', null, {
                 root: true
               });
-              _context3.next = 25;
+              _context2.next = 25;
               break;
 
             case 17:
-              _context3.prev = 17;
-              _context3.t3 = _context3["catch"](1);
-              _context3.t4 = commit;
-              _context3.next = 22;
-              return _context3.t3.response.data.message;
+              _context2.prev = 17;
+              _context2.t3 = _context2["catch"](1);
+              _context2.t4 = commit;
+              _context2.next = 22;
+              return _context2.t3.response.data.message;
 
             case 22:
-              _context3.t5 = _context3.sent;
-              _context3.t6 = {
+              _context2.t5 = _context2.sent;
+              _context2.t6 = {
                 root: true
               };
-              (0, _context3.t4)('SHOW_ERROR_SNACKBAR', _context3.t5, _context3.t6);
+              (0, _context2.t4)('SHOW_ERROR_SNACKBAR', _context2.t5, _context2.t6);
 
             case 25:
             case "end":
-              return _context3.stop();
+              return _context2.stop();
           }
         }
-      }, _callee3, null, [[1, 17]]);
+      }, _callee2, null, [[1, 17]]);
     }))();
   }
 };
@@ -3354,6 +3303,151 @@ var mutations = {
   },
   SHOW_SAVE_DIRECT_CONTACT_DIALOG: function SHOW_SAVE_DIRECT_CONTACT_DIALOG(state, show) {
     state.dialog = show;
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  namespaced: true,
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/paises.js":
+/*!**********************************************!*\
+  !*** ./resources/js/store/modules/paises.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../router */ "./resources/js/router/index.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+var state = {
+  dialog_pais: false,
+  data: {},
+  id_pais_editado: null,
+  pais_editado: {}
+};
+var getters = {
+  getPaises: function getPaises(state) {
+    return state.data.data;
+  },
+  getPaisEditado: function getPaisEditado(state) {
+    return state.pais_editado;
+  }
+};
+var actions = {
+  initPaises: {
+    handler: function handler(_ref) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var commit, rootGetters, getters, config, res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit, rootGetters = _ref.rootGetters, getters = _ref.getters;
+                config = {
+                  params: {
+                    page: getters.currentPage
+                  }
+                };
+                _context.prev = 2;
+                _context.next = 5;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().get("api/v1/attention/".concat(rootGetters["currentUser/getUser"].idpacientes), config);
+
+              case 5:
+                res = _context.sent;
+                _context.t0 = commit;
+                _context.next = 9;
+                return res.data;
+
+              case 9:
+                _context.t1 = _context.sent;
+                (0, _context.t0)('SET_DATA', _context.t1);
+                console.log('hola');
+                _context.next = 17;
+                break;
+
+              case 14:
+                _context.prev = 14;
+                _context.t2 = _context["catch"](2);
+                console.error(_context.t2.response);
+
+              case 17:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[2, 14]]);
+      }))();
+    }
+  },
+  initPaisEditado: {
+    handler: function handler(_ref2) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var commit, rootGetters, getters, res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit, rootGetters = _ref2.rootGetters, getters = _ref2.getters;
+                _context2.prev = 1;
+                _context2.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().get("api/v1/attention/".concat(rootGetters["currentUser/getUser"].idpacientes), config);
+
+              case 4:
+                res = _context2.sent;
+                _context2.t0 = commit;
+                _context2.next = 8;
+                return res.data;
+
+              case 8:
+                _context2.t1 = _context2.sent;
+                (0, _context2.t0)('SET_DATA', _context2.t1);
+                _context2.next = 15;
+                break;
+
+              case 12:
+                _context2.prev = 12;
+                _context2.t2 = _context2["catch"](1);
+                console.error(_context2.t2.response);
+
+              case 15:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[1, 12]]);
+      }))();
+    }
+  }
+};
+var mutations = {
+  SET_DATA: function SET_DATA(state, data) {
+    state.data = data;
+  },
+  SHOW_PAIS_DIALOG: function SHOW_PAIS_DIALOG(state, show) {
+    state.dialog_pais = show;
+  },
+  SET_ID_PAIS_EDITADO: function SET_ID_PAIS_EDITADO(state, data) {
+    state.id_pais_editado = data;
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -70898,7 +70992,7 @@ var index = {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_paises_container_vue":1,"resources_js_components_paises_Tabla_vue":1,"resources_js_components_paises_DirectContacts_vue":1,"resources_js_components_atenciones_admin_container_vue":1,"resources_js_components_LoginForm_vue":1,"resources_js_components_planilla_container_vue":1,"resources_js_components_planilla_Tabla_vue":1,"resources_js_components_equipos_container_vue":1,"resources_js_components_equipos_Tabla_vue":1,"resources_js_components_otros_container_vue":1,"resources_js_components_otros_Tabla_vue":1,"resources_js_components_presupuestos_container_vue":1,"resources_js_components_presupuestos_Tabla_vue":1,"resources_js_components_presupuestos_Bitacora_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_paises_container_vue":1,"resources_js_components_paises_Tabla_vue":1,"resources_js_components_atenciones_admin_container_vue":1,"resources_js_components_LoginForm_vue":1,"resources_js_components_planilla_container_vue":1,"resources_js_components_planilla_Tabla_vue":1,"resources_js_components_equipos_container_vue":1,"resources_js_components_equipos_Tabla_vue":1,"resources_js_components_otros_container_vue":1,"resources_js_components_otros_Tabla_vue":1,"resources_js_components_presupuestos_container_vue":1,"resources_js_components_presupuestos_Tabla_vue":1,"resources_js_components_presupuestos_Bitacora_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

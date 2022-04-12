@@ -8,6 +8,7 @@ import seguimientos from "./modules/seguimientos";
 import binnacle from "./modules/binnacle";
 import antecedentes from "./modules/antecedentes";
 import dc from "./modules/dc";
+import paises from "./modules/paises";
 
 Vue.use(Vuex)
 
@@ -63,6 +64,7 @@ const modules = {
   binnacle,
   antecedentes,
   dc,
+  paises,
 }
 
 const store = new Vuex.Store({

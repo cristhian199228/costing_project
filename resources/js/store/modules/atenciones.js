@@ -31,22 +31,7 @@ const getters = {
 }
 
 const actions = {
-  getAtencionesPaciente: {
-    root: true,
-    async handler ({commit, rootGetters, getters}) {
-      const config = {
-        params: {
-          page: getters.currentPage,
-        }
-      }
-      try {
-        const res = await axios.get(`api/v1/attention/${rootGetters["currentUser/getUser"].idpacientes}`, config)
-        commit('SET_DATA', await res.data)
-      } catch (e) {
-        console.error(e.response)
-      }
-    },
-  },
+ 
   getAtencionesAdministrador: {
     root: true,
     async handler ({commit, getters}) {
