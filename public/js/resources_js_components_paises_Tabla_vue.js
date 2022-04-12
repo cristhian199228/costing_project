@@ -43,7 +43,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)("paises", ["getPaisesDialog"])),
-  methods: _objectSpread(_objectSpread(_objectSpread({}, mapActions("paises", ["initPaisEditado"])), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapMutations)("paises", ["SHOW_PAIS_DIALOG"])), {}, {
+  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)("paises", ["initPaisEditado"])), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapMutations)("paises", ["SHOW_PAIS_DIALOG"])), {}, {
     close: function close() {
       this.SHOW_PAIS_DIALOG(false);
     },

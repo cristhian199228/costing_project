@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapActions , mapGetters, mapMutations } from "vuex";
 export default {
   computed: {
     ...mapGetters("paises", ["getPaisesDialog"]),
