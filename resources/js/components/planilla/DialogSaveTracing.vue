@@ -2,7 +2,7 @@
   <div>
     <v-dialog v-model="getDialog" max-width="600px">
       <v-card>
-        <v-card-title>NUEVO PRESUPUESTO</v-card-title>
+        <v-card-title>NUEVA PLANILLA/v-card-title>
         <v-divider></v-divider>
         <v-card-text>
           <v-text-field
@@ -18,7 +18,19 @@
           >
           
           </v-text-field>
-          <v-text-field v-model="form.days" type="number" label="DURACION(MESES)"></v-text-field>
+          <v-text-field
+            :search-input.sync="search"
+            :items="getPacientes"
+            label=" SUELDO BASE"
+            hide-no-data
+            hide-selected
+            clearable
+            item-text="full_name"
+            item-value="idpacientes"
+            v-model="form.patient_id"
+          >
+          
+          </v-text-field>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
