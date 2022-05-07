@@ -6,19 +6,17 @@
         <v-divider></v-divider>
         <v-card-text>
           <v-text-field
-            :search-input.sync="search"
-            :items="getPacientes"
             label=" DESCRIPCION"
             hide-no-data
             hide-selected
             clearable
             item-text="full_name"
             item-value="idpacientes"
-            v-model="form.patient_id"
+            v-model="form.descripcion"
           >
           
           </v-text-field>
-          <v-text-field v-model="form.days" type="number" label="DURACION(MESES)"></v-text-field>
+          <v-text-field v-model="form.duracion" type="number" label="DURACION(MESES)"></v-text-field>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
@@ -42,8 +40,6 @@ export default {
     return {
       search: null,
       form: {
-        patient_id: null,
-        days: 7,
       },
       criterios: ['full_name', 'numero_documento']
     }
@@ -59,7 +55,7 @@ export default {
       this.SHOW_SAVE_TRACING_DIALOG(false)
     },
     guardar() {
-      this.$store.dispatch(`seguimientos/store`, this.form)
+      this.$store.dispatch(`seguimientos/guardarPresupuesto`, this.form)
     },
   },
   watch: {

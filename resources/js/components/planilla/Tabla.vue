@@ -3,6 +3,7 @@
     <v-card outlined>
       <v-breadcrumbs :items="items"></v-breadcrumbs>
       <p class="display-1 mt-5 text-center">PLANILLA</p>
+           
       <v-divider></v-divider>
       <v-card-text>
         <v-data-table
@@ -116,6 +117,9 @@ export default {
       this.$store.commit("seguimientos/SET_BUSCAR_FILTER", null);
       this.getTracingsPlanilla();
     },
+    deleteItem(item){
+       this.$store.dispatch(`seguimientos/destroy`, item);
+    }
   },
   computed: {
     ...mapGetters("seguimientos", ["tracingsPlanilla"]),

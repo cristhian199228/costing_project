@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Presupuesto;
 use App\Models\Tracing;
 use App\Models\Planilla;
+use App\Models\ValoresPlanilla;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -55,27 +56,40 @@ class TracingController extends Controller
     public function store(Request $request)
     {
         //
-        $validated = $request->validate([
+        /*$validated = $request->validate([
             'patient_id' => 'required|integer',
             'days' => 'required|integer|between:1,30'
-        ]);
+        ]);*/
 
-        $currentTracing = Tracing::where('patient_id', $validated['patient_id'])
-            ->where('status', 0)
-            ->first();
-
-        if ($currentTracing) {
-            return response([
-                'message' => 'El paciente tiene un seguimiento sin finalizar'
-            ], 401);
-        }
-        $tracing = new Tracing();
-        $tracing->patient_id = $validated['patient_id'];
-        $tracing->end_date_tracing = Carbon::now()->addDays($validated['days']);
+       
+        $tracing = new Planilla;
+        $tracing->puesto = $request->puesto;
+        $tracing->sueldo = $request->sueldo;    
+        $tracing->estado = 1;       
         $tracing->save();
 
         return response([
-            'message' => 'Seguimiento creado correctamente',
+            'message' => 'Planilla Creada Correctamente',
+            'data' => $tracing,
+        ]);
+    }
+    public function guardarPresupuesto(Request $request)
+    {
+        //
+        /*$validated = $request->validate([
+            'patient_id' => 'required|integer',
+            'days' => 'required|integer|between:1,30'
+        ]);*/
+       
+        $tracing = new Presupuesto();
+        $tracing->descripcion = $request->descripcion;
+        $tracing->duracion = $request->duracion;    
+        $tracing->estado = 0; 
+        $tracing->id_pais = 1;       
+        $tracing->save();
+
+        return response([
+            'message' => 'Presupuesto Creado Correctamente',
             'data' => $tracing,
         ]);
     }
@@ -89,17 +103,19 @@ class TracingController extends Controller
     public function show($id)
     {
         //
-        $tracing = Tracing::where('id', $id)
-            ->with('patient')
-            ->with(['binnacle' => function ($q) {
+        $tracing = Presupuesto::where('id', $id)
+            ->with('planilla')
+            /*->with(['binnacle' => function ($q) {
                 $q->latest();
-            }])->first();
+            }])*/
+            ->first();
 
-        if (count($tracing->binnacle) > 0) {
-            foreach ($tracing->binnacle as $binnacle) {
-                $binnacle->datetime = $binnacle->created_at->format('d/m/Y H:i');
-            }
-        }
+        return response($tracing);
+    }
+    public function valoresPlanilla()
+    {
+        //
+        $tracing = ValoresPlanilla::All();
 
         return response($tracing);
     }
@@ -122,13 +138,13 @@ class TracingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function eliminar(Request $request)
     {
         //
-        $tracing = Tracing::findOrFail($id);
+        $tracing = Planilla::findOrFail($request->id);
         $tracing->delete();
 
-        return response(['message' => 'Seguimiento eliminado correctamente']);
+        return response(['message' => 'Planilla eliminado correctamente']);
     }
     public function tracingPlanilla(Request $request)
     {

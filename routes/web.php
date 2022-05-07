@@ -36,6 +36,9 @@ Route::prefix('/api/v1')->group(function () {
         'dc' => DirectContactsController::class,
     ]);
 
+    Route::post('/tracing/guardarPresupuesto', [TracingController::class, 'guardarPresupuesto']);
+    Route::get('/valoresPlanilla', [TracingController::class, 'ValoresPlanilla']);
+    Route::post('/tracing/eliminar', [TracingController::class, 'eliminar']);
     Route::post('/login', [PatientController::class, 'login']);
     Route::get('/search/patient', [PatientController::class, 'index']);
     Route::get('/tracingPlanilla', [TracingController::class, 'tracingPlanilla']);

@@ -152,6 +152,9 @@ export default {
       this.$store.commit("seguimientos/SET_FECHAS_FILTER", this.dates);
       this.getTracings();
     },
+    deleteItem(item){
+       this.$store.dispatch(`seguimientos/destroy`, item);
+    },
     clearBuscarField() {
       this.$store.commit("seguimientos/SET_BUSCAR_FILTER", null);
       this.getTracings();

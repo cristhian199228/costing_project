@@ -2,7 +2,7 @@
   <div>
     <v-dialog v-model="getDialog" max-width="600px">
       <v-card>
-        <v-card-title>NUEVA PLANILLA/v-card-title>
+        <v-card-title>NUEVA PLANILLA</v-card-title>
         <v-divider></v-divider>
         <v-card-text>
           <v-text-field
@@ -14,23 +14,18 @@
             clearable
             item-text="full_name"
             item-value="idpacientes"
-            v-model="form.patient_id"
+            v-model="form.puesto"
           >
-          
           </v-text-field>
-          <v-text-field
-            :search-input.sync="search"
-            :items="getPacientes"
-            label=" SUELDO BASE"
-            hide-no-data
-            hide-selected
+          <vuetify-money
+            v-model="form.sueldo"
+            label="SUELDO"
+            placeholder="SUELDO BASE"
+            outlined
             clearable
-            item-text="full_name"
-            item-value="idpacientes"
-            v-model="form.patient_id"
-          >
+            v-bind:options="options"
+          />
           
-          </v-text-field>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
@@ -44,40 +39,47 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
-
+import { mapGetters, mapMutations, mapActions } from "vuex";
+import VuetifyMoney from "vuetify-money";
+Vue.use(VuetifyMoney);
 export default {
   props: {
-    action: Object
+    action: Object,
   },
   data() {
     return {
       search: null,
+      options: {
+        prefix: "S/.",
+        suffix: "",
+        length: 11,
+        precision: 2,
+      },
       form: {
         patient_id: null,
         days: 7,
       },
-      criterios: ['full_name', 'numero_documento']
-    }
+      criterios: ["full_name", "numero_documento"],
+    };
   },
   computed: {
-    ...mapGetters('seguimientos',['getDialog']),
-    ...mapGetters(['getPacientes']),
+    ...mapGetters("seguimientos", ["getDialog"]),
+    ...mapGetters(["getPacientes"]),
   },
   methods: {
-    ...mapMutations('seguimientos',['SHOW_SAVE_TRACING_DIALOG']),
-    ...mapActions(['searchPacientes']),
-    close(){
-      this.SHOW_SAVE_TRACING_DIALOG(false)
+    ...mapMutations("seguimientos", ["SHOW_SAVE_TRACING_DIALOG"]),
+    ...mapActions(["searchPacientes"]),
+    close() {
+      this.SHOW_SAVE_TRACING_DIALOG(false);
     },
     guardar() {
-      this.$store.dispatch(`seguimientos/store`, this.form)
+      this.$store.dispatch(`seguimientos/store`, this.form);
     },
   },
   watch: {
     search(buscar) {
-      this.searchPacientes(buscar)
-    }
-  }
-}
+      this.searchPacientes(buscar);
+    },
+  },
+};
 </script>

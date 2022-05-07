@@ -7,6 +7,8 @@
           <p class="display-1 mt-5 text-center">BITÁCORA DE SEGUIMIENTO</p>
           <p class="subtitle-1 text-center">PACIENTE: <span class="font-weight-light">{{ paciente.full_name }}</span></p>
           <v-divider></v-divider>
+    
+
           <v-card-text>
             <v-row>
               <v-col cols="12" lg="10" md="10" sm="10" xs="12">

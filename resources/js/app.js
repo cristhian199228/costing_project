@@ -9,6 +9,8 @@ import store from "./store"
 import { extend, ValidationProvider, ValidationObserver, setInteractionMode, localize} from "vee-validate";
 import { required,integer, min, max, required_if } from "vee-validate/dist/rules";
 import es from 'vee-validate/dist/locale/es.json'
+import VuetifyMoney from "vuetify-money";
+
 
 setInteractionMode("eager");
 extend("required", {
